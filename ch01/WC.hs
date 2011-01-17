@@ -1,4 +1,9 @@
 -- file: WC.hs
 
-main = interact wordCount
-  where wordCount input = show (length input)++"\n"
+-- Exercise 2
+wordCount input = show (length (words input)) ++ "\n"
+
+-- Exercise 3
+charCount input = show (length input) ++ "\n"
+
+main = interact charCount
