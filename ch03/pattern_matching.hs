@@ -90,17 +90,25 @@ findDirections (x:y:z:xs) = [getDirection x y z] ++ findDirections ([y]++[z]++xs
 compareY one two | (y one) == (y two) = compare (x one) (x two)
                  | (y one) >  (y two) = GT
                  | otherwise          = LT
-
+-- Cotangent
 cot (Point x1 y1) (Point x2 y2) = (x2-x1)/(y2-y1)
 
--- I'm not sure this is correct yet. 
 sortListByCoTangent p xs = p:(sortBy (compCoTangent p) (delete p (nub xs)))
                                      where
                                       compCoTangent p a b = compare (cot p b) (cot p a)
                                       
+scan (x:y:z:[]) | getDirection x y z == DLeft = [x]++[y]++[z]
+                | otherwise                   = [x]++[z]
+-- Scan through the list, if it's a left turn, we know x is part of the hull
+-- Any non-left turns mean the middle node is not part of the hull
+scan (x:y:z:xs) | getDirection x y z == DLeft = [x] ++ scan (y:z:xs)
+                | otherwise                   = scan (x:z:xs)
 
 grahamScan xs = let p = minimumBy compareY xs
                     lst = (sortListByCoTangent p xs) ++ [p]
-                in lst
+                in scan lst
 
-testData = [(Point 1 1), (Point 2 2), (Point 3 4)]
+-- Test data for the graham scan algorithm
+testData = [(Point 0 0), (Point 2 1), (Point 4 2), (Point 3 3), (Point 3 4), (Point 4 5), (Point 2 5), (Point 0 4)]
+
+testData2 = [(Point 1 1), (Point 3 3), (Point 4 2), (Point 4 4), (Point 2 5), (Point 1 6), (Point 1 5)]
