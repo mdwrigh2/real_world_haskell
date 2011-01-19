@@ -14,7 +14,7 @@ main = mainWith myFunction
 
 
 removeHeads [] = []
-removeHeads (x:xs) = (tail' x) : removeHeads xs
+removeHeads (x:xs) = tail' x : removeHeads xs
                      where tail' [] = []
                            tail' xs = tail xs
 
@@ -25,4 +25,4 @@ getHeads (x:xs) = head' x : getHeads xs
 
 transpose input | all null (lines input) = []
                 | otherwise              = let input' = lines input
-                                           in ((getHeads input') ++ "\n") ++ (transpose (unlines (removeHeads input')))
+                                           in (getHeads input' ++ "\n") ++ transpose (unlines (removeHeads input'))

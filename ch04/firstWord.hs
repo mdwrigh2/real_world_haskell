@@ -17,7 +17,7 @@ main = mainWith myFunction
         myFunction = firstWord
 
 firstWord input = helper (lines input)
-                  where helper (x:xs) = (head' (words x)) ++ "\n" ++ helper xs
+                  where helper (x:xs) = head' (words x) ++ "\n" ++ helper xs
                           where head' [] = []
                                 head' xs = head xs
                         helper _ = []
