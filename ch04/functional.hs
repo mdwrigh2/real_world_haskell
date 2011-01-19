@@ -27,3 +27,10 @@ safeInit xs = Just (init xs)
 -- returns False
 
 splitWith :: (a -> Bool) -> [a] -> [[a]]
+splitWith _ [] = []
+splitWith f xs = (takeWhile f xs) : splitWith f (tail' (dropWhile f xs))
+                 where tail' [] = []
+                       tail' xs = tail xs
+-- Test function for Exercise 02
+isNotSpace c | (c == ' ') = False
+             | otherwise  = True
