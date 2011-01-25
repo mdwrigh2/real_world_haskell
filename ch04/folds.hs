@@ -41,4 +41,9 @@ takeWhile_folded :: (a -> Bool) -> [a] -> [a]
 takeWhile_folded f (xs) = foldr step [] xs
   where step x acc | f x       = x : acc
                    | otherwise = []
-groupBy' f xs = foldr takeWhile_folded 
+
+groupBy' :: (a -> a -> Bool) -> [a] -> [[a]]
+groupBy' f xs = foldl step [[head xs]] (tail xs)
+  where step acc x | f x ((head . last) acc) = (init acc) ++ [(last acc)++[x]]
+                   | otherwise         = acc++[[x]]
+
